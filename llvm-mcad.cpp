@@ -322,17 +322,21 @@ int main(int argc, char **argv) {
   if (CPUName == "native")
     CPUName = std::string(sys::getHostCPUName());
 
+  llvm::Triple TT(TripleName);
   std::unique_ptr<MCSubtargetInfo> STI(
-      TheTarget->createMCSubtargetInfo(TripleName, CPUName, MAttr));
+      TheTarget->createMCSubtargetInfo(TT, CPUName, MAttr));
   assert(STI && "Unable to create subtarget info!");
   if (!STI->isCPUStringValid(CPUName))
     return 1;
 
-  std::unique_ptr<MCRegisterInfo> MRI(TheTarget->createMCRegInfo(TripleName));
+//  std::unique_ptr<MCRegisterInfo> MRI(TheTarget->createMCRegInfo(TripleName));
+  std::unique_ptr<MCRegisterInfo> MRI(TheTarget->createMCRegInfo(TT));
   assert(MRI);
   MCTargetOptions MCOptions = mc::InitMCTargetOptionsFromFlags();
-    std::unique_ptr<MCAsmInfo> MAI(
-            TheTarget->createMCAsmInfo(*MRI, TripleName, MCOptions));
+//    std::unique_ptr<MCAsmInfo> MAI(
+//            TheTarget->createMCAsmInfo(*MRI, TripleName, MCOptions));
+  auto MAI = std::unique_ptr<MCAsmInfo>(
+    TheTarget->createMCAsmInfo(*MRI, TT, MCOptions));
   assert(MAI);
 
   llvm::SourceMgr SM;

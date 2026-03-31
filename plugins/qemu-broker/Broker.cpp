@@ -683,7 +683,7 @@ void QemuBroker::initializeDisassembler() {
       Features.AddFeature("+thumb-mode");
 
     SecondarySTI.reset(
-      TheTarget.createMCSubtargetInfo(TheTriple.getTriple(),
+      TheTarget.createMCSubtargetInfo(TheTriple,
                                       STI.getCPU(), Features.getString()));
     SecondaryDisAsm.reset(TheTarget.createMCDisassembler(*SecondarySTI, Ctx));
   }
