@@ -57,6 +57,7 @@ apt-get install -y \
        ccache \
        htop \
        vim \
+       gcc-riscv64-linux-gnu libc6-dev-riscv64-cross \
        nano 
 
 # Dependencies to build LLVM --
