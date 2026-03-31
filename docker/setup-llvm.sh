@@ -15,13 +15,14 @@ git config --global user.email "workflow@example.com"
 git config --global user.name "Workflow"
 git clone https://github.com/llvm/llvm-project.git llvm
 cd llvm
+# git reset --hard cc5d8a4b2fc765c3c432f1ad0b185dae518d41bd
 git am ${WORKSPACE_PATH}/LLVM-MCA-Daemon/patches/*.patch
 mkdir build && cd build
 cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${WORKSPACE_PATH}/llvm-install \
-               -DCMAKE_C_COMPILER=clang-14 -DCMAKE_CXX_COMPILER=clang++-14 \
-               -DLLVM_USE_LINKER=lld-14 -DLLVM_ENABLE_ASSERTIONS=ON \
+               -DCMAKE_C_COMPILER=clang-21 -DCMAKE_CXX_COMPILER=clang++-21 \
+               -DLLVM_USE_LINKER=lld-21 -DLLVM_ENABLE_ASSERTIONS=ON \
                -DLLVM_TOOL_LLVM_MCA_BUILD=ON \
-               -DLLVM_TARGETS_TO_BUILD="AArch64;ARM;X86;PowerPC" -DLLVM_DEFAULT_TARGET_TRIPLE=x86_64-pc-linux-gnu \
+               -DLLVM_TARGETS_TO_BUILD="AArch64;ARM;X86;RISCV" -DLLVM_DEFAULT_TARGET_TRIPLE=x86_64-pc-linux-gnu \
            ../llvm
 ninja llvm-mca llvm-mc LLVMDebugInfoDWARF
 ninja install

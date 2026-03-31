@@ -8,6 +8,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 dpkg --add-architecture i386
 
+# Pick a newer FlatBuffers release tag from:
+# https://github.com/google/flatbuffers/releases
+FLATBUFFERS_VERSION=v25.1.24
+
+
 # General dependencies --
 apt-get update
 apt-get install -y \
@@ -52,22 +57,49 @@ apt-get install -y \
        ccache \
        htop \
        vim \
-       nano
+       nano 
 
 # Dependencies to build LLVM --
 apt-get update
 apt-get install -y software-properties-common wget
 wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
-add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-14 main"
+add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-21 main"
 apt-get update
 apt-get install -y \
        build-essential \
-       clang-14 \
+       clang-21 \
        cmake \
-       lld-14 \
+       lld-21 \
        git \
        ninja-build
 
+# Build and install newer FlatBuffers from upstream.
+cd /tmp
+rm -rf flatbuffers
+git clone --depth 1 --branch "${FLATBUFFERS_VERSION}" https://github.com/google/flatbuffers.git
+cmake -S flatbuffers -B flatbuffers/build \
+      -G Ninja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DFLATBUFFERS_BUILD_TESTS=OFF
+cmake --build flatbuffers/build -j"$(nproc)"
+cmake --install flatbuffers/build
+# Build and install newer FlatBuffers from upstream.
+cd /tmp
+rm -rf flatbuffers
+git clone --depth 1 --branch "${FLATBUFFERS_VERSION}" https://github.com/google/flatbuffers.git
+cmake -S flatbuffers -B flatbuffers/build \
+      -G Ninja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DFLATBUFFERS_BUILD_TESTS=OFF
+cmake --build flatbuffers/build -j"$(nproc)"
+cmake --install flatbuffers/build
+
+# Refresh shared library cache if a shared lib was installed.
+ldconfig
+
+rm -rf /tmp/flatbuffers
 rm -rf /var/lib/apt/lists/*
 
 rm -rf /root/.cache
