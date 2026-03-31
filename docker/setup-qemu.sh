@@ -16,7 +16,8 @@ git config --global user.name "Workflow"
 git clone https://gitlab.com/qemu-project/qemu.git 
 cd qemu
 git checkout 0cef06d18762374c94eb4d511717a4735d668a24
-git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/qemu-patch.diff
+#git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/qemu-patch.diff
+git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/combined-qemu-patch.diff
 mkdir build && cd build
 ../configure --target-list="aarch64-linux-user,arm-linux-user,x86_64-linux-user,ppc64-linux-user,ppc64le-linux-user,ppc-linux-user,riscv64-linux-user,riscv32-linux-user" \
              --enable-capstone \
