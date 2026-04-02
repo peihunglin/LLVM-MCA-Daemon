@@ -15,13 +15,14 @@ git config --global user.email "workflow@example.com"
 git config --global user.name "Workflow"
 git clone https://gitlab.com/qemu-project/qemu.git 
 cd qemu
-git checkout 0cef06d18762374c94eb4d511717a4735d668a24
+git checkout 59fa90c0152bfa80c7b9c75d835bcaec380ed6b7
+#git checkout 0cef06d18762374c94eb4d511717a4735d668a24
 #git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/qemu-patch.diff
-git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/combined-qemu-patch.diff
+git apply ${WORKSPACE_PATH}/LLVM-MCA-Daemon/plugins/qemu-broker/patches/combined-latest-qemu-patch.diff
 mkdir build && cd build
 ../configure --target-list="aarch64-linux-user,arm-linux-user,x86_64-linux-user,ppc64-linux-user,ppc64le-linux-user,ppc-linux-user,riscv64-linux-user,riscv32-linux-user" \
              --enable-capstone \
              --enable-debug \
-             --enable-plugins
+             --enable-plugins --python=/usr/bin/python3
 ninja qemu-arm qemu-x86_64 qemu-aarch64 qemu-ppc{,64,64le} qemu-riscv64 qemu-riscv32
 ninja install

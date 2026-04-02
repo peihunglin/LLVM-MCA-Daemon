@@ -58,6 +58,7 @@ apt-get install -y \
        htop \
        vim \
        gcc-riscv64-linux-gnu libc6-dev-riscv64-cross \
+       libcapstone-dev python3-tomli \
        nano 
 
 # Dependencies to build LLVM --

@@ -230,7 +230,9 @@ static void tbTranslateCallback(qemu_plugin_id_t Id,
   for (auto i = 0U; i < NumInsn; ++i) {
     const auto *QI = qemu_plugin_tb_get_insn(TB, i);
     size_t InsnSize = qemu_plugin_insn_size(QI);
-    const auto *I = (const uint8_t*)qemu_plugin_insn_data(QI);
+    uint8_t insn_data[InsnSize];  
+    size_t copied = qemu_plugin_insn_data(QI, insn_data, InsnSize);  
+    const auto *I = insn_data;
     uint64_t VAddr = qemu_plugin_insn_vaddr(QI);
 
     // Filter by address
