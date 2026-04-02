@@ -15,6 +15,7 @@ git config --global user.email "workflow@example.com"
 git config --global user.name "Workflow"
 git clone https://github.com/llvm/llvm-project.git llvm
 cd llvm
+git reset --hard 1ab49a973e210e97d61e5db6557180dcb92c3e98
 # git reset --hard cc5d8a4b2fc765c3c432f1ad0b185dae518d41bd
 git am ${WORKSPACE_PATH}/LLVM-MCA-Daemon/patches/*.patch
 mkdir build && cd build
